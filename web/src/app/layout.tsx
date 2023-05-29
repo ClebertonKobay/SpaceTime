@@ -1,11 +1,11 @@
 import './globals.css'
 import { Roboto_Flex, Bai_Jamjuree } from 'next/font/google'
 
-const roboto = Roboto_Flex({ 
+export const roboto = Roboto_Flex({ 
   subsets: ['latin'],
   variable: '--font-roboto' 
 });
-const baiJamjuree = Bai_Jamjuree({
+export const baiJamjuree = Bai_Jamjuree({
   subsets:['latin'],
   weight:'700',
   variable:'--font-baijamjuree'
@@ -22,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${roboto.variable} ${baiJamjuree.variable} font-sans text-gray-100 bg-gray-900`}>{children}</body>
+    <html lang="pt-br">
+      <body className={`${roboto.className} ${baiJamjuree.className} font-sans text-gray-100 bg-gray-900 `}>{children}</body>
     </html>
   )
 }
