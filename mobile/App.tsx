@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 import { BaiJamjuree_700Bold } from '@expo-google-fonts/bai-jamjuree'
 
 import blurBg from './src/assets/bgBlur.png'
 import Stripes from './src/assets/stripes.svg'
-
+import Logo from './src/assets/logo.svg'
 
 export default function App() {
   const [hasLoadedFonts] = useFonts({
@@ -19,11 +19,37 @@ export default function App() {
   return (
     <ImageBackground 
       source={blurBg} 
-      style={styles.container}
+      style={[styles.container,{padding:34}]}
       imageStyle={{position:'absolute', left:'-100%'}}
       >
-        <Stripes  />
-      <StatusBar style="auto" translucent />
+        <Stripes style={{position:'absolute',left:2}} />
+        <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+          <Logo />
+          <View style={{justifyContent:'space-between'}}>
+            <Text style={
+              [styles.title,
+              styles.gray50,
+              {textAlign:'center', fontSize:24,margin:20}
+              ]}>Sua cápsula do tempo</Text>
+
+              <Text 
+                style={[styles.body,styles.gray100,{fontSize:16, textAlign:'center'}]}>Colecione momentos marcantes da sua jornada e compartilhe (se quiser) com o mundo </Text>
+          </View>
+          <View style={{height:40,width:200,marginTop:20}}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={[styles.button,{flex:1 ,justifyContent:'flex-end',alignItems:'center'}]}
+            >
+              <Text style={[styles.alt,{textTransform:'uppercase',textAlignVertical:'top',height:20}]}>
+                Cadastrar Lembrança
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+              <Text style={[styles.gray100,{textAlign:'center',fontSize:10,}]}>
+                Feito por Cleberton Kobay dos Santos
+              </Text>
+        <StatusBar style="auto" translucent />
     </ImageBackground>
   );
 }
@@ -36,8 +62,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
   },
-  text:{
+  gray50:{
     color:'#eaeaea'
+  },
+  gray100:{
+    color:'#bebebf'
   },
   title:{
     fontFamily:'Roboto_700Bold',
@@ -47,7 +76,13 @@ const styles = StyleSheet.create({
   },
   alt:{
     fontFamily:'BaiJamjuree_700Bold'
-  }
+  },
+  button:{
+    borderRadius:25,
+    backgroundColor:'#04d361',
+    paddingBottom:12,
+    paddingTop:20,
+  },
 });
 /**
  * colors:{
