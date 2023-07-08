@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto'
 import { BaiJamjuree_700Bold } from '@expo-google-fonts/bai-jamjuree'
@@ -7,6 +8,9 @@ import { BaiJamjuree_700Bold } from '@expo-google-fonts/bai-jamjuree'
 import blurBg from './src/assets/bgBlur.png'
 import Stripes from './src/assets/stripes.svg'
 import Logo from './src/assets/logo.svg'
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
+import { useEffect } from 'react';
+import { api } from './src/lib/api';
 
 export default function App() {
   const [hasLoadedFonts] = useFonts({
@@ -14,6 +18,40 @@ export default function App() {
     Roboto_700Bold,
     BaiJamjuree_700Bold 
   });
+
+  const discovery = {
+    authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+    tokenEndpoint: 'https://github.com/login/oauth/access_token',
+    revocationEndpoint: 'https://github.com/settings/connections/applications/828413a7fe47cec734b5',
+  };
+
+  const [request, response, signInWithGithub] = useAuthRequest(
+    {
+      clientId: '828413a7fe47cec734b5',
+      scopes: ['identity'],
+      redirectUri: makeRedirectUri({
+        scheme: 'cleberSpace'
+      }),
+    },
+    discovery
+  );
+
+  useEffect(() => {
+    // console.log(makeRedirectUri({
+    //   scheme: 'cleberSpace'
+    // }));
+    if (response?.type === 'success') {
+      const { code } = response.params;
+      api.post('/register',{
+        code
+      }).then(response => {
+        const {token} = response.data
+        SecureStore.setItemAsync('token',token)
+      }).catch(err=>console.log(err))
+    }
+  }, [response]);
+
+
   if(!hasLoadedFonts)
     return null;
   return (
@@ -37,6 +75,7 @@ export default function App() {
           </View>
           <View style={{height:40,width:200,marginTop:20}}>
             <TouchableOpacity
+            onPress={()=>signInWithGithub()}
               activeOpacity={0.6}
               style={[styles.button,{flex:1 ,justifyContent:'flex-end',alignItems:'center'}]}
             >

@@ -15,7 +15,6 @@ export async function authRoutes(app: FastifyInstance   ) {
                 client_id: process.env.GITHUB_CLIENT_ID,
                 client_secret:process.env.GITHUB_CLIENT_SECRETE,
                 code,
-                
             },
             headers:{
                 Accept: 'application/json',
@@ -66,4 +65,6 @@ export async function authRoutes(app: FastifyInstance   ) {
          
         return {token};
     });
+
+    
 }
