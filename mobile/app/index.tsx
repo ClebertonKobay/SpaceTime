@@ -47,7 +47,6 @@ export default function App() {
       handleOAuthCode(code)
     }
   }, [response]);
-
   return (
     <View style={[styles.container, { padding: 34 }]}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
